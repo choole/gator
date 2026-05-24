@@ -2,20 +2,29 @@ import { readConfig } from "src/config";
 import { createFeed, getFeeds } from "../lib/db/queries/rss";
 import { getUser, getUserById } from "../lib/db/queries/users";
 import { Feed, User } from "src/lib/db/schema";
+import { printFeedFollow } from "./feed_follow";
+import { createFeedFollow } from "src/lib/db/queries/feed_follow";
 
 export async function handlerAddFeed(
-
+	cmdName: string,
+	user: User,
 	...args: string[]
 ) {
-	const name = args[0];
-	const url = args[1];
-	const config = readConfig();
-	let user = await getUser(config.currentUserName);
+	if (args.length !== 2) {
+		throw new Error(`usage: ${cmdName} <feed_name> <url>`);
+	}
 
-	const feed = await createFeed(name, url, user?.id);
+	const feedName = args[0];
+	const url = args[1];
+
+	const feed = await createFeed(feedName, url, user.id);
 	if (!feed) {
 		throw new Error(`Failed to create feed`);
 	}
+
+	const feedFollow = await createFeedFollow(user.id, feed.id);
+
+	printFeedFollow(user.name, feedFollow.feedName);
 
 	console.log("Feed created successfully:");
 	printFeed(feed, user);

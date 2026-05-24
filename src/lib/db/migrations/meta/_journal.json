@@ -15,6 +15,20 @@
       "when": 1779488079062,
       "tag": "0001_deep_masked_marvel",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779610536885,
+      "tag": "0002_brown_callisto",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1779611893808,
+      "tag": "0003_ancient_captain_flint",
+      "breakpoints": true
     }
   ]
 }
